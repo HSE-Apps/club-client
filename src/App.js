@@ -195,6 +195,7 @@ useEffect(() => {
     if (auth.user && !auth.fetched) {
       console.log("FETCHING");
       try {
+        console.log(auth)
         const selectionRes = await axios.post(
           `${process.env.REACT_APP_CLUB_API}/user`,
           {

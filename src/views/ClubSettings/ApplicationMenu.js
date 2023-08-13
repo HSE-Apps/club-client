@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext,useEffect } from 'react'
 
 import {Divider, List, Tooltip, Avatar, Button, Typography, Switch, message} from 'antd'
 import { UserAddOutlined} from '@ant-design/icons';
@@ -15,7 +15,12 @@ const {Text} = Typography
 const ApplicationMenu = ({updateClub, form, club, setForm, clubMembers, errors, setErrors, edited, setEdited, setClub, setClubMembers}) => {
 
     const {clubContext, setClubContext} = useContext(ClubContext)
-
+   
+    useEffect  (() => {
+        if(clubMembers){
+            console.log(clubMembers)   
+        }
+    }, [clubMembers])
 
     const acceptMember = async (idToAdd) => {
         try{
@@ -67,7 +72,7 @@ const ApplicationMenu = ({updateClub, form, club, setForm, clubMembers, errors, 
 
                 <List.Item
                 actions={[<div style={{display:'flex', alignItems:'center'}}>
-                            <Tooltip title="Accept"> <UserAddOutlined onClick={() => acceptMember(member._id)}style={{fontSize: "18px", color: "#52c41a", cursor: "pointer"}}/>  </Tooltip>
+                            <Tooltip title="Accept"> <UserAddOutlined onClick={() => acceptMember(member.msId)}style={{fontSize: "18px", color: "#52c41a", cursor: "pointer"}}/>  </Tooltip>
                         </div>]}
                 >
                     <List.Item.Meta

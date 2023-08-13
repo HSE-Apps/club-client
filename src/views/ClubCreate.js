@@ -9,6 +9,7 @@ import {motion} from 'framer-motion'
 import axios from 'axios'
 import TagSelector from './SharedComponents/TagSelector';
 import AvatarUpload from './SharedComponents/AvatarUpload'
+import PictureUpload from './SharedComponents/PictureUpload'
 const {SubMenu} = Menu
 
 
@@ -248,8 +249,21 @@ const ClubSettings = ({history}) => {
                                                 <Text strong style={{fontSize: "10px"}}>YOUTUBE </Text>
                                             </div>
                                             <Input id="youtube" prefix={<YoutubeOutlined style={{marginRight: "5px"}} />} onChange={handleContactForm} style={{width: "100%", height: "40px", borderRadius: "5px"}} placeholder="Link" value={form.contact.youtube}></Input>
+                                            
                                     </div>
-
+                                    <div style={{marginBottom: "15px"}}>
+                                            <div style={{marginBottom:"3px"}}>
+                                                <Text strong style={{fontSize: "10px"}}>IMAGE</Text>
+                                            </div>
+                                            <PictureUpload  
+                            avatar={form.logo}
+                            changeHandeler={(info) => {
+                                      if (info.file.status === 'done') {
+                                        setEdited(true)
+                                        setForm({...form, youtube: info.file.response})
+                            } 
+                        }}/>
+                                            </div>
                                     <div style={{marginBottom: "15px"}}>
                                             <div style={{marginBottom:"3px"}}>
                                                 <Text strong style={{fontSize: "10px"}}>TAGS </Text>

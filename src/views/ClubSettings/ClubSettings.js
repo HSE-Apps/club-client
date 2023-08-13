@@ -62,22 +62,23 @@ const ClubSettings = ({history}) => {
                 console.log(clubRes.data)
             }
 
-            // const memberRes = await axios.get(`${process.env.REACT_APP_CLUB_API}/club/${clubURL}/members`)
+            const memberRes = await axios.get(`${process.env.REACT_APP_CLUB_API}/club/${clubURL}/members`)
             // const announcementRes = await axios.get(`${process.env.REACT_APP_CLUB_API}/club/${clubURL}/announcement`)
-            // setClubMembers(memberRes.data)
+            setClubMembers(memberRes.data)
             // setAnnouncements(announcementRes.data.announcements.reverse())
-
+                console.log(memberRes.data)
         } catch (err) {
 
-            history.push('/')
-            console.log(err.msg)
+             history.push('/')
+            console.log(err, "error")
 
         }
     }
 
 
     const userHasAuthPerms = () => {
-        return club.officers.includes(auth.user._id) || club.sponsors.includes(auth.user._id)
+        const msId = auth.user.localAccountId
+        return club.officers.includes(msId) || club.sponsors.includes(msId)
     }
 
 
@@ -89,6 +90,7 @@ const ClubSettings = ({history}) => {
         } else {
             console.log(club)
             if(!auth.user && !auth.isLoading){
+                console.log("not logged in")
                 history.push('/')
             } else if(userHasAuthPerms()) {
                 setForm({
@@ -105,7 +107,8 @@ const ClubSettings = ({history}) => {
                     members: club.members || [],
                     sponsors: club.sponsors || [],
                     officers: club.officers || [],
-                    settings: club.settings || {}
+                    settings: club.settings || {},
+                    youtube: club.youtube || "",
                 })  
             } else {
                 history.push('/')
@@ -217,7 +220,7 @@ const ClubSettings = ({history}) => {
                             <Menu.Item key="info" onClick={() => setMenu('info')}style={activeKey == "info" && {color: "#1890ff"} }icon={<HomeOutlined />}>Club Information</Menu.Item>
                             <Menu.Item key="members" onClick={() => setMenu('members')} style={activeKey == "members" && {color: "#1890ff"} }icon={<TeamOutlined />}>Members</Menu.Item>
                             <Menu.Item key="app" onClick={() => setMenu('app')} style={activeKey == "app" && {color: "#1890ff"} }icon={<UserAddOutlined />}><Badge offset={[1,2]} dot={club.applicants.length > 0}>Applicants </Badge>  </Menu.Item>
-                            <Menu.Item key="announcements" onClick={() => setMenu('announcements')} style={activeKey == "announcements" && {color: "#1890ff"} }icon={<NotificationOutlined />}>Announcments  </Menu.Item>
+                            {/* <Menu.Item key="announcements" onClick={() => setMenu('announcements')} style={activeKey == "announcements" && {color: "#1890ff"} }icon={<NotificationOutlined />}>Announcments  </Menu.Item> */}
 
                             {club.officers.includes(auth.user._id) &&
                             <Menu.Item danger key='leave' onClick={() => leaveClub()} style={activeKey == "leave" && {color: "#1890ff"} }icon={<LogoutOutlined />}>Leave Club </Menu.Item>
@@ -234,7 +237,7 @@ const ClubSettings = ({history}) => {
                                 <>
                                     {
                                         {
-                                        "announcements": <AnnouncementMenu club={club} auth={auth} announcements={announcements} setAnnouncements={setAnnouncements}/>,
+                                        // "announcements": <AnnouncementMenu club={club} auth={auth} announcements={announcements} setAnnouncements={setAnnouncements}/>,
                                         "info": <InformationMenu errors={errors}  setErrors={errors} form={form} updateClub={updateClub} setForm={setForm} edited={edited} setEdited={setEdited}/>,
                                         "app": <ApplicationMenu edited={edited} club={club} setErrors={setErrors} setClubMembers={setClubMembers} errors={errors} updateClub={updateClub} setClub={setClub} form={form} setForm={setForm} clubMembers={clubMembers} setEdited={setEdited} />,
                                         "members": <MemberMenu form={form} errors={errors} edited={edited} setEdited={setEdited} clubMembers={clubMembers} setForm={setForm} club={club} updateClub={updateClub} setErrors={setErrors} setClub={setClub} setClubMembers={setClubMembers}/>
