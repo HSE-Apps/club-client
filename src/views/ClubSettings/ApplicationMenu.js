@@ -30,9 +30,9 @@ const ApplicationMenu = ({updateClub, form, club, setForm, clubMembers, errors, 
             
             setClub(clubRes.data)
             setClubContext({...clubContext, [club.url] : clubData})
-            const userToAdd = clubMembers.applicants.find((user) => user._id ==  idToAdd)
+            const userToAdd = clubMembers.applicants.find((user) => user.msId ==  idToAdd)
 
-            setClubMembers({...clubMembers, applicants: clubMembers.applicants.filter((user) => user._id != idToAdd), members: [userToAdd].concat(clubMembers.members)})
+            setClubMembers({...clubMembers, applicants: clubMembers.applicants.filter((user) => user.msId != idToAdd), members: [userToAdd].concat(clubMembers.members)})
             message.success('Club member accepted', 5)
 
         } catch(err){

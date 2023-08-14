@@ -198,7 +198,7 @@ const ClubSettings = ({history}) => {
         <div key="extraDiv" style={{display: "flex", alignItems: "center"}}>
             <Text>{club.name}</Text>
             <Divider type="vertical" />
-            <Text style={{margin: "0px"}}>{ club.sponsors.includes(auth.user._id) ? club.titles[auth.user._id] || "Sponsor" : club.titles[auth.user._id] || "Officer" }</Text>
+            <Text style={{margin: "0px"}}>{ club.sponsors.includes(auth.user.msId) ? club.titles[auth.user.msId] || "Sponsor" : club.titles[auth.user.msId] || "Officer" }</Text>
             <Divider type="vertical" />
             <Avatar size={35} shape="square" src={form?.logo || club.logo}></Avatar>
         </div>
@@ -222,10 +222,10 @@ const ClubSettings = ({history}) => {
                             <Menu.Item key="app" onClick={() => setMenu('app')} style={activeKey == "app" && {color: "#1890ff"} }icon={<UserAddOutlined />}><Badge offset={[1,2]} dot={club.applicants.length > 0}>Applicants </Badge>  </Menu.Item>
                             {/* <Menu.Item key="announcements" onClick={() => setMenu('announcements')} style={activeKey == "announcements" && {color: "#1890ff"} }icon={<NotificationOutlined />}>Announcments  </Menu.Item> */}
 
-                            {club.officers.includes(auth.user._id) &&
+                            {club.officers.includes(auth.user.msId) &&
                             <Menu.Item danger key='leave' onClick={() => leaveClub()} style={activeKey == "leave" && {color: "#1890ff"} }icon={<LogoutOutlined />}>Leave Club </Menu.Item>
                             }
-                            {club.sponsors.includes(auth.user._id) &&
+                            {club.sponsors.includes(auth.user.msId) &&
                             <Menu.Item danger key='disband' onClick={() => disbandClub} icon={<LogoutOutlined />}>Disband Club </Menu.Item>
                             }
                         </SettingsNav>

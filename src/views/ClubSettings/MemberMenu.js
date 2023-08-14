@@ -51,15 +51,15 @@ const MemberMenu = ({ form, errors, edited, setEdited, clubMembers, setForm, clu
             const clubData = clubRes.data;
 
             setClub(clubData);
-            const userToPromote = clubMembers.members.find((user) => user._id == idToPromote);
-
+            const userToPromote = clubMembers.members.find((user) => user.msId == idToPromote);
+            
             setClubMembers({
                 ...clubMembers,
-                members: clubMembers.members.filter((user) => user._id != idToPromote),
+                members: clubMembers.members.filter((user) => user.msId != idToPromote),
                 officers: [userToPromote].concat(clubMembers.officers)
             });
             message.success('Club member promoted', 5);
-            setRefreshKey(prevKey => prevKey + 1);
+            
         } catch (err) {
             console.log(err);
             console.log(err.msg);
@@ -74,11 +74,11 @@ const MemberMenu = ({ form, errors, edited, setEdited, clubMembers, setForm, clu
             const clubData = clubRes.data;
 
             setClub(clubData);
-            const userToDemote = clubMembers.officers.find((user) => user._id == idToDemote);
+            const userToDemote = clubMembers.officers.find((user) => user.msId == idToDemote);
 
             setClubMembers({
                 ...clubMembers,
-                officers: clubMembers.officers.filter((user) => user._id != idToDemote),
+                officers: clubMembers.officers.filter((user) => user.msId != idToDemote),
                 members: [userToDemote].concat(clubMembers.members)
             });
             message.success('Club member demoted', 5);
@@ -143,36 +143,7 @@ const MemberMenu = ({ form, errors, edited, setEdited, clubMembers, setForm, clu
                     </div>
                 </div>
             )}
-            {clubMembers?.applicants && (
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <div style={{ width: "95%" }}>
-                        <List
-                            header="Applicants"
-                            itemLayout="horizontal"
-                            dataSource={clubMembers.applicants}
-                            renderItem={member => (
-                                <List.Item
-                                    actions={[
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <Tooltip title="Accept">
-                                                <UserAddOutlined 
-                                                    style={{ fontSize: "18px", color: "#52c41a", cursor: "pointer" }}
-                                                />
-                                            </Tooltip>
-                                        </div>
-                                    ]}
-                                >
-                                    <List.Item.Meta
-                                        avatar={<Avatar size={45} src={member.profilePictureURL} />}
-                                        title={member.name}
-                                        description={<Text> {club.titles[member._id] || "Applicant"} </Text>}
-                                    />
-                                </List.Item>
-                            )}
-                        />
-                    </div>
-                </div>
-            )}
+            
         </>
     );
 }

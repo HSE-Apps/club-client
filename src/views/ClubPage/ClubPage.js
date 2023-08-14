@@ -43,7 +43,7 @@ const Club = ({history}) => {
             // avoids hitting request twice
             if(!autoJoined){
                 setAutoJoined(true)
-                if(!club.officers.concat(club.members).concat(club.sponsors).includes(auth.user._id) ){
+                if(!club.officers.concat(club.members).concat(club.sponsors).includes(auth.user.msId) ){
                     joinClub()
                 } else {
                     message.error('Already In Club', 5)
@@ -153,6 +153,7 @@ const Club = ({history}) => {
                         </Card>
 
                         {/* Embed YouTube media player inside a Card */}
+                        {club.contact.youtube &&
                         <Card style={{ borderRadius: "20px", marginBottom: "20px", overflow: "hidden"}}>
                             <iframe 
                                 width="100%" 
@@ -164,7 +165,7 @@ const Club = ({history}) => {
                                 allowfullscreen>
                             </iframe>
                         </Card>
-                        
+}
                         {clubMembers && 
                             <MemberList club={club} clubMembers={clubMembers} ></MemberList>
                         }
@@ -173,8 +174,9 @@ const Club = ({history}) => {
                     <div style={{width: "27.5%", minWidth: "275px"}}>
                         
                         <GetInvolvedCard club={club}></GetInvolvedCard>
+                        {club.contact &&
                         <ContactCard club={club}></ContactCard>
-
+                        }
                     </div>
                 </div>
             </Col>
