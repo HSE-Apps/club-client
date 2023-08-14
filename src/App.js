@@ -134,6 +134,19 @@ const App = () => {
         },
       }));
       console.log(auth);
+    }else{
+      setAuth((prev) => ({
+        ...prev,
+        isAuth: true,
+        loading: false,
+        fetched: false,
+        user: {
+          ...prev.user,
+          role: "teacher",
+          displayName: `${res.data.givenName} ${res.data.surname}`,
+          grade: res.data.jobTitle,
+        },
+      }));
     }
     // const token = localStorage.getItem("token");
 

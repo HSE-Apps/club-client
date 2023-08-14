@@ -11,88 +11,81 @@ import AuthContext from '../../contexts/AuthContext'
 
 const {Text} = Typography
 
-const MemberMenu = ({form, errors, edited, setEdited, clubMembers, setForm, club, updateClub, setErrors, setClub, setClubMembers}) => {
+const MemberMenu = ({ form, errors, edited, setEdited, clubMembers, setForm, club, updateClub, setErrors, setClub, setClubMembers }) => {
+    const [refreshKey, setRefreshKey] = useState(0);
+    const [search, setSearch] = useState("");
 
-
-    const [search, setSearch] = useState("")
-
-    const {clubContext, setClubContext} = useContext(ClubContext)
-    const {auth, setAuthContext} = useContext(AuthContext)
-
-    useEffect  (() => {
-        if(clubMembers){
-            console.log(clubMembers)   
+    useEffect(() => {
+        if (clubMembers) {
+            console.log(clubMembers);
         }
-    }, [clubMembers])
+    }, [clubMembers, refreshKey]);
 
     const kickMember = async (msIdToKick) => {
-        console.log(msIdToKick)
-        try{
-             const clubRes = await axios.delete(`${process.env.REACT_APP_CLUB_API}/club/${club.url}/members/`, {
+        console.log(msIdToKick);
+        try {
+            const clubRes = await axios.delete(`${process.env.REACT_APP_CLUB_API}/club/${club.url}/members/`, {
                 headers: {
                     'x-user-id': msIdToKick
                 }
             });
             const clubData = clubRes.data;
-            
+
             setClub(clubData);
-            setClubContext({...clubContext, [club.url] : clubData});
             setClubMembers({
-                ...clubMembers, 
+                ...clubMembers,
                 members: clubMembers.members.filter((user) => user.msId !== msIdToKick),
                 officers: clubMembers.officers.filter((user) => user.msId !== msIdToKick)
             });
             message.success('Club member kicked', 5);
-    
-        } catch(err){
+            setRefreshKey(prevKey => prevKey + 1);
+        } catch (err) {
             console.log(err.msg);
-            setErrors([{"msg": "Server error"}]);
+            setErrors([{ "msg": "Server error" }]);
         }
     }
-    
-
-  
 
     const promoteMember = async (idToPromote) => {
+        try {
+            const clubRes = await axios.put(`${process.env.REACT_APP_CLUB_API}/club/${club.url}/members/${idToPromote}/promote`);
+            const clubData = clubRes.data;
 
-        try{
-            const clubRes = await axios.put(`${process.env.REACT_APP_CLUB_API}/club/${club.url}/members/${idToPromote}/promote`)
-            
-            const clubData = clubRes.data
-            
-            setClub(clubRes.data)
-            setClubContext({...clubContext, [club.url] : clubData})
-            const userToPromote = clubMembers.members.find((user) => user._id ==  idToPromote)
+            setClub(clubData);
+            const userToPromote = clubMembers.members.find((user) => user._id == idToPromote);
 
-            setClubMembers({...clubMembers, members: clubMembers.members.filter((user) => user._id != idToPromote), officers: [userToPromote].concat(clubMembers.officers)})
-            message.success('Club member promoted', 5)
-
-        } catch(err){
-            console.log(err)
-            console.log(err.msg)
-            setErrors([{"msg": "Server error"}])
+            setClubMembers({
+                ...clubMembers,
+                members: clubMembers.members.filter((user) => user._id != idToPromote),
+                officers: [userToPromote].concat(clubMembers.officers)
+            });
+            message.success('Club member promoted', 5);
+            setRefreshKey(prevKey => prevKey + 1);
+        } catch (err) {
+            console.log(err);
+            console.log(err.msg);
+            setErrors([{ "msg": "Server error" }]);
         }
     }
- 
+
     const demoteMember = async (idToDemote) => {
+        console.log(idToDemote);
+        try {
+            const clubRes = await axios.put(`${process.env.REACT_APP_CLUB_API}/club/${club.url}/members/${idToDemote}/demote`);
+            const clubData = clubRes.data;
 
-        console.log(idToDemote)
-        try{
-            const clubRes = await axios.put(`${process.env.REACT_APP_CLUB_API}/club/${club.url}/members/${idToDemote}/demote`)
-            
-            const clubData = clubRes.data
-            
-            setClub(clubRes.data)
-            setClubContext({...clubContext, [club.url] : clubData})
-            const userToDemote = clubMembers.officers.find((user) => user._id ==  idToDemote)
+            setClub(clubData);
+            const userToDemote = clubMembers.officers.find((user) => user._id == idToDemote);
 
-            setClubMembers({...clubMembers, officers: clubMembers.officers.filter((user) => user._id != idToDemote), members: [userToDemote].concat(clubMembers.members)})
-            message.success('Club member demoted', 5)
-
-        } catch(err){
-
-            console.log(err.msg)
-            setErrors([{"msg": "Server error"}])
+            setClubMembers({
+                ...clubMembers,
+                officers: clubMembers.officers.filter((user) => user._id != idToDemote),
+                members: [userToDemote].concat(clubMembers.members)
+            });
+            message.success('Club member demoted', 5);
+            setRefreshKey(prevKey => prevKey + 1);
+        } catch (err) {
+            console.log(err.msg);
+            setErrors([{ "msg": "Server error" }]);
         }
     }
 
@@ -123,10 +116,8 @@ const MemberMenu = ({form, errors, edited, setEdited, clubMembers, setForm, club
                             renderItem={user => {
                                 let description;
                                 let actions = [];
-    
                                 if (clubMembers.sponsors.includes(user)) {
                                     description = <Text>{"Sponsor"}</Text>;
-                                    // Assuming sponsors are the owners, so no actions for them.
                                 } else if (clubMembers.officers.includes(user)) {
                                     description = <Text>{"Officer"}</Text>;
                                     actions.push(<Button type="primary" onClick={() => demoteMember(user.msId)}>Demote</Button>);
@@ -136,7 +127,6 @@ const MemberMenu = ({form, errors, edited, setEdited, clubMembers, setForm, club
                                     actions.push(<Button type="primary" onClick={() => promoteMember(user.msId)}>Promote</Button>);
                                     actions.push(<Button type="danger" onClick={() => kickMember(user.msId)}>Kick</Button>);
                                 }
-    
                                 return (
                                     <List.Item
                                         actions={actions}
@@ -166,7 +156,6 @@ const MemberMenu = ({form, errors, edited, setEdited, clubMembers, setForm, club
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <Tooltip title="Accept">
                                                 <UserAddOutlined 
-                                                    // onClick={() => acceptMember(member._id)}
                                                     style={{ fontSize: "18px", color: "#52c41a", cursor: "pointer" }}
                                                 />
                                             </Tooltip>
@@ -186,9 +175,6 @@ const MemberMenu = ({form, errors, edited, setEdited, clubMembers, setForm, club
             )}
         </>
     );
-    
-    
 }
-
 
 export default MemberMenu;
