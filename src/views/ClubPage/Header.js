@@ -35,7 +35,7 @@ const Header = ({ club, leaveClub, joinClub, history }) => {
                 ]
             } else if (userIsOfficer || userIsSponser) {
                 return [
-                    <Text style={{ cursor: 'pointer' }} onClick={() => navigateAndRefresh(`/clubs/${club.url}/settings`)}> Manage Club</Text>,
+                   
                     <Avatar size={50} shape="round" src={club.logo} ></Avatar>
                 ]
             } else if (userIsApplicant) {

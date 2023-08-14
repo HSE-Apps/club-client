@@ -58,6 +58,7 @@ const ClubSettings = ({history}) => {
                 settings:  {},
                 url: "",
                 youtube: "",
+                displayImg:""
             })  
         }
 
@@ -256,11 +257,11 @@ const ClubSettings = ({history}) => {
                                                 <Text strong style={{fontSize: "10px"}}>IMAGE</Text>
                                             </div>
                                             <PictureUpload  
-                            avatar={form.logo}
+                            avatar={form.displayImg}
                             changeHandeler={(info) => {
                                       if (info.file.status === 'done') {
                                         setEdited(true)
-                                        setForm({...form, youtube: info.file.response})
+                                        setForm({...form, displayImg: info.file.response})
                             } 
                         }}/>
                                             </div>

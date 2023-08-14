@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 import {Input, Button, Typography} from 'antd'
-import { LinkOutlined, InstagramOutlined, MailOutlined} from '@ant-design/icons'
+import { LinkOutlined, InstagramOutlined, MailOutlined, YoutubeOutlined} from '@ant-design/icons'
 
 import AvatarUpload from '../SharedComponents/AvatarUpload'
 import TagSelector from '../SharedComponents/TagSelector'
-
+import PictureUpload from '../SharedComponents/PictureUpload'
 
 const {Text} = Typography
 
@@ -102,7 +102,27 @@ const InformationMenu = ({form, updateClub, setForm, edited, setEdited, errors,s
                             </div>
                             <Input id="instagram" prefix={<InstagramOutlined style={{marginRight: "5px"}} />} onChange={handleContactForm} style={{width: "100%", height: "40px", borderRadius: "5px"}} placeholder="Username" value={form.contact.instagram}></Input>
                     </div>
-
+                    <div style={{marginBottom: "15px"}}>
+                            <div style={{marginBottom:"3px"}}>
+                                <Text strong style={{fontSize: "10px"}}>Youtube </Text>
+                            </div>
+                            <Input id="youtube" prefix={<YoutubeOutlined style={{marginRight: "5px"}} />} onChange={handleContactForm} style={{width: "100%", height: "40px", borderRadius: "5px"}} placeholder="Username" value={form.contact.youtube}></Input>
+                    </div>
+                    
+                    <div style={{marginBottom: "15px"}}>
+                                            <div style={{marginBottom:"3px"}}>
+                                                <Text strong style={{fontSize: "10px"}}>IMAGE</Text>
+                                            </div>
+                                            <PictureUpload  
+                            avatar={form.logo}
+                            changeHandeler={(info) => {
+                                      if (info.file.status === 'done') {
+                                        setEdited(true)
+                                        setForm({...form, displayImg: info.file.response})
+                            } 
+                        }}/>
+                                           
+                    </div>
                     <div style={{marginBottom: "15px"}}>
                             <div style={{marginBottom:"3px"}}>
                                 <Text strong style={{fontSize: "10px"}}>TAGS </Text>

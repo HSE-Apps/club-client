@@ -109,6 +109,9 @@ const ClubSettings = ({history}) => {
                     officers: club.officers || [],
                     settings: club.settings || {},
                     youtube: club.youtube || "",
+                    instagram: club.instagram || "",
+                    displayImg: club.displayImg || "",
+
                 })  
             } else {
                 history.push('/')

@@ -14,6 +14,7 @@ const {Text} = Typography
 const MemberMenu = ({ form, errors, edited, setEdited, clubMembers, setForm, club, updateClub, setErrors, setClub, setClubMembers }) => {
     const [refreshKey, setRefreshKey] = useState(0);
     const [search, setSearch] = useState("");
+    const {auth, setAuth} = useContext(AuthContext)
 
     useEffect(() => {
         if (clubMembers) {
@@ -113,9 +114,11 @@ const MemberMenu = ({ form, errors, edited, setEdited, clubMembers, setForm, clu
                                     [...clubMembers.sponsors, ...clubMembers.officers, ...clubMembers.members].filter((user) => user.name.toLowerCase().includes(search.toLowerCase())) :
                                     [...clubMembers.sponsors, ...clubMembers.officers, ...clubMembers.members]
                             }
+                        
                             renderItem={user => {
                                 let description;
                                 let actions = [];
+                            
                                 if (clubMembers.sponsors.includes(user)) {
                                     description = <Text>{"Sponsor"}</Text>;
                                 } else if (clubMembers.officers.includes(user)) {

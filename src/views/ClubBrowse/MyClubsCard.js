@@ -146,7 +146,7 @@ const MyClubsCard = ({history}) => {
         <MakeAnnouncementModal modal={modal} setModal={setModal}/>
 
         {userClubs && 
-        <Card title="My Clubs" bordered={true} extra={ auth.user.role == "teacher" &&[<Link to='/create'>Register Club</Link>]} style={{ width: "100%", margin: "40px 20px ", borderRadius: "20px" }}>
+        <Card title="My Clubs" bordered={true} extra={ auth.user.role == "student" &&[<Link to='/create'>Register Club</Link>]} style={{ width: "100%", margin: "40px 20px ", borderRadius: "20px" }}>
         <List
             itemLayout="horizontal"
             dataSource={userClubs}
@@ -175,10 +175,7 @@ const MyClubsCard = ({history}) => {
             if(club.officers.includes(auth.user.localAccountId) || club.sponsors.includes(auth.user.localAccountId)){
                 if(club.officers.includes(auth.user.localAccountId)){
                     actions = [
-                        <Link><Tooltip title="Announcements"><Badge dot={newAnnouncement || false} offset={[-3,1]}><BellOutlined onClick={() => {
-                            markRead(club.url)
-                            setAModal({open: true, club: club})
-                        }} style={{color:"rgba(0, 0, 0, 0.45)"}}/></Badge></Tooltip></Link>,
+                        
                         <Link ><Tooltip title="Make Announcement"><Badge><NotificationOutlined onClick={() => setModal({open: true, club})} style={{color:"rgba(0, 0, 0, 0.45)"}}/></Badge></Tooltip></Link>,
                         <Link to={`/clubs/${club.url}/settings`}> <Badge dot={club.applicants.length >= 1} offset={[-2,1]}><Tooltip title="Settings"><SettingOutlined style={{color:"rgba(0, 0, 0, 0.45)"}}/></Tooltip> </Badge></Link>,
                       

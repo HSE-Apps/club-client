@@ -153,7 +153,7 @@ const Club = ({history}) => {
                         </Card>
 
                         {/* Embed YouTube media player inside a Card */}
-                        {club.contact.youtube &&
+                        { club.contact.youtube &&
                         <Card style={{ borderRadius: "20px", marginBottom: "20px", overflow: "hidden"}}>
                             <iframe 
                                 width="100%" 
@@ -165,7 +165,14 @@ const Club = ({history}) => {
                                 allowfullscreen>
                             </iframe>
                         </Card>
-}
+
+                        }
+                        {
+                            club.displayImg &&
+                            <Card style={{ borderRadius: "20px", marginBottom: "20px", overflow: "hidden"}}>
+                                <img src={club.contact.displayImg} style={{width: "100%"}}></img>
+                            </Card>
+                        }
                         {clubMembers && 
                             <MemberList club={club} clubMembers={clubMembers} ></MemberList>
                         }
