@@ -113,21 +113,21 @@ const InformationMenu = ({form, updateClub, setForm, edited, setEdited, errors,s
                                             <div style={{marginBottom:"3px"}}>
                                                 <Text strong style={{fontSize: "10px"}}>IMAGE</Text>
                                             </div>
-                                                                    <PictureUpload  
-                            picture={form.displayImg}
-                            changeHandeler={(info) => {
-                                if (info === "DELETE_ACTION") {
-                                    setEdited(true);
-                                    setForm({...form, displayImg: " "});
-                                    return;
-                                }
+                            <PictureUpload  
+                                                        picture={form.displayImg}
+                                                        changeHandeler={(info) => {
+                                                            if (info === "DELETE_ACTION") {
+                                                                setEdited(true);
+                                                                setForm({...form, displayImg: " "});
+                                                                return;
+                                                            }
 
-                            
-                                if (info.file.status === 'done') {
-                                    setEdited(true);
-                                    setForm({...form, displayImg: info.file.response});
-                                } 
-                            }}
+                                                        
+                                                            if (info.file.status === 'done') {
+                                                                setEdited(true);
+                                                                setForm({...form, displayImg: info.file.response});
+                                                            } 
+                                                        }}
                         />
 
                                            

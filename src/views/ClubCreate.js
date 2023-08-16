@@ -256,13 +256,21 @@ const ClubSettings = ({history}) => {
                                                 <Text strong style={{fontSize: "10px"}}>IMAGE</Text>
                                             </div>
                                             <PictureUpload  
-                            avatar={form.displayImg}
-                            changeHandeler={(info) => {
-                                      if (info.file.status === 'done') {
-                                        setEdited(true)
-                                        setForm({...form, displayImg: info.file.response})
-                            } 
-                        }}/>
+                                                        picture={form.displayImg}
+                                                        changeHandeler={(info) => {
+                                                            if (info === "DELETE_ACTION") {
+                                                                setEdited(true);
+                                                                setForm({...form, displayImg: " "});
+                                                                return;
+                                                            }
+
+                                                        
+                                                            if (info.file.status === 'done') {
+                                                                setEdited(true);
+                                                                setForm({...form, displayImg: info.file.response});
+                                                            } 
+                                                        }}
+                        />
                                             </div>
                                     <div style={{marginBottom: "15px"}}>
                                             <div style={{marginBottom:"3px"}}>
