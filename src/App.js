@@ -208,7 +208,7 @@ useEffect(() => {
     if (auth.user && !auth.fetched) {
       console.log("FETCHING");
       try {
-        console.log(auth)
+     
         const selectionRes = await axios.post(
           `${process.env.REACT_APP_CLUB_API}/user`,
           {
@@ -224,6 +224,7 @@ useEffect(() => {
             fetched: true,
           }));
         }
+        
       } catch (error) {
         console.log(error);
       }
@@ -235,7 +236,7 @@ useEffect(() => {
 
  
 
-  console.log(auth.user);
+ 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
     <UserClubContext.Provider value={{ userClubContext, setUserClubContext }}>

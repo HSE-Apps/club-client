@@ -22,7 +22,7 @@ const Club = ({history}) => {
     
 
     const {auth, setAuth} = useContext(AuthContext)
-    console.log(auth)
+  
     const {userClubContext, setUserClubContext} = useContext(UserClubContext)
     const {clubContext, setClubContext} = useContext(ClubContext)
 
@@ -38,7 +38,7 @@ const Club = ({history}) => {
     useEffect(() => {
        
         getClubData()
-
+        console.log(club)
         if(autojoin && (auth.user && club)){
             // avoids hitting request twice
             if(!autoJoined){
@@ -170,7 +170,7 @@ const Club = ({history}) => {
                         {
                             club.displayImg &&
                             <Card style={{ borderRadius: "20px", marginBottom: "20px", overflow: "hidden"}}>
-                                <img src={club.contact.displayImg} style={{width: "100%"}}></img>
+                                <img src={club.displayImg} style={{width: "100%"}}></img>
                             </Card>
                         }
                         {clubMembers && 

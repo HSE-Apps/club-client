@@ -58,7 +58,6 @@ const ClubSettings = ({history}) => {
                 settings:  {},
                 url: "",
                 youtube: "",
-                displayImg:""
             })  
         }
 

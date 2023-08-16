@@ -60,7 +60,7 @@ const Navbar = ({history}) => {
 
   const {auth, setAuth} = useContext(AuthContext)
   const { instance, accounts } = useMsal();
-  console.log(auth)
+  
   async function signOutClickHandler(instance) {
     const selectionRes = await axios.post(
       `${process.env.REACT_APP_CLUB_API}/user`,
