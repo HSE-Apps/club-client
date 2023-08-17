@@ -45,7 +45,7 @@ const Header = ({ club, leaveClub, joinClub, history }) => {
                 ]
             } else {
                 return [
-                    <Text style={{ cursor: 'pointer' }} onClick={() => { joinClub(); navigateAndRefresh(window.location.pathname); }}> Join Club</Text>,
+                    <Text style={{ cursor: 'pointer' }} onClick={() => { joinClub();  }}> Join Club</Text>,
                     <Avatar size={50} shape="round" src={club.logo} ></Avatar>
                 ]
             }

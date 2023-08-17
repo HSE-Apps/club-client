@@ -62,19 +62,8 @@ const Navbar = ({history}) => {
   const { instance, accounts } = useMsal();
   
   function signOutClickHandler(instance) {
-    const logoutRequest = {
-      account: instance.getAccountByHomeId(auth.user.homeAccountId),
-      postLogoutRedirectUri: "https://hseclubs.com/",
-    };
+   
 
-    instance.logoutRedirect(logoutRequest);
-
-    setAuth({
-      isAuth: false,
-      loading: true,
-      fetched: false,
-    });
-    
   }
   
   function login(){
