@@ -61,23 +61,20 @@ const Navbar = ({history}) => {
   const {auth, setAuth} = useContext(AuthContext)
   const { instance, accounts } = useMsal();
   
-  async function signOutClickHandler(instance) {
-    const selectionRes = await axios.post(
-      `${process.env.REACT_APP_CLUB_API}/user`,
-      {
-        user: auth,
-      }
-    );
-    console.log(selectionRes, "SELECTION RES");
-    if (!selectionRes.data.errors) {
-      setAuth((prev) => ({
-        isAuth: true,
-        user: { ...prev.user },
-        loading: false,
-        fetched: true,
-      }));
-    }
-  
+  function signOutClickHandler(instance) {
+    const logoutRequest = {
+      account: instance.getAccountByHomeId(auth.user.homeAccountId),
+      postLogoutRedirectUri: "https://hseclubs.com/",
+    };
+
+    instance.logoutRedirect(logoutRequest);
+
+    setAuth({
+      isAuth: false,
+      loading: true,
+      fetched: false,
+    });
+    
   }
   
   function login(){
