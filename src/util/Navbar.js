@@ -67,7 +67,7 @@ const Navbar = ({history}) => {
   }
   
   function login(){
-    instance.loginPopup(loginRequest).catch(e => {
+    instance.loginRedirect(loginRequest).catch(e => {
            console.log(e+"login error");
        });
      }
