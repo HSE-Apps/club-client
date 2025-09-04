@@ -26,6 +26,8 @@ import Verify from "./views/Verify";
 
 import EmailModal from "./util/EmailModal";
 
+import DeprecationNotice from "./components/DeprecationNotice";
+
 const { Text, Link } = Typography;
 
 const notifContent = () => {
@@ -134,19 +136,6 @@ const App = () => {
         },
       }));
       console.log(auth);
-    }else{
-      setAuth((prev) => ({
-        ...prev,
-        isAuth: true,
-        loading: false,
-        fetched: false,
-        user: {
-          ...prev.user,
-          role: "teacher",
-          displayName: `${res.data.givenName} ${res.data.surname}`,
-          grade: res.data.jobTitle,
-        },
-      }));
     }
     // const token = localStorage.getItem("token");
 
@@ -208,7 +197,6 @@ useEffect(() => {
     if (auth.user && !auth.fetched) {
       console.log("FETCHING");
       try {
-     
         const selectionRes = await axios.post(
           `${process.env.REACT_APP_CLUB_API}/user`,
           {
@@ -224,7 +212,6 @@ useEffect(() => {
             fetched: true,
           }));
         }
-        
       } catch (error) {
         console.log(error);
       }
@@ -236,34 +223,37 @@ useEffect(() => {
 
  
 
- 
+  console.log(auth.user);
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-    <UserClubContext.Provider value={{ userClubContext, setUserClubContext }}>
-      <ClubContext.Provider value={{ clubContext, setClubContext }}>
-          <BrowserRouter>
-            <Switch>
-              <Route exact path="/" component={ClubBrowse} />
-     
-            
-            
-              <Route exact path="/settings" component={Settings} />
-              <Route exact path="/clubs/:club" component={Club} />
-              <Route
-                exact
-                path="/clubs/:club/settings"
-                component={ClubSettings}
-              />
-              <Route exact path="/team"></Route>
-              <Route exact path="/faq"></Route>
-              <Route exact path="/contact"></Route>
-              <Route exact path="/create" component={ClubCreate}></Route>
-            </Switch>
-          </BrowserRouter>
-       
-      </ClubContext.Provider>
-    </UserClubContext.Provider>
-     </AuthContext.Provider>
+    <>
+      <DeprecationNotice />
+      <AuthContext.Provider value={{ auth, setAuth }}>
+      <UserClubContext.Provider value={{ userClubContext, setUserClubContext }}>
+        <ClubContext.Provider value={{ clubContext, setClubContext }}>
+            <BrowserRouter>
+              <Switch>
+                <Route exact path="/" component={ClubBrowse} />
+      
+              
+              
+                <Route exact path="/settings" component={Settings} />
+                <Route exact path="/clubs/:club" component={Club} />
+                <Route
+                  exact
+                  path="/clubs/:club/settings"
+                  component={ClubSettings}
+                />
+                <Route exact path="/team"></Route>
+                <Route exact path="/faq"></Route>
+                <Route exact path="/contact"></Route>
+                <Route exact path="/create" component={ClubCreate}></Route>
+              </Switch>
+            </BrowserRouter>
+        
+        </ClubContext.Provider>
+      </UserClubContext.Provider>
+      </AuthContext.Provider>
+    </>
   );
 };
 
